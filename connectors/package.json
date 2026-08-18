@@ -16,7 +16,7 @@
     "@azure/identity": "4.13.1",
     "@dora/observability": "0.1.0",
     "@dora/shared": "0.1.0",
-    "read-excel-file": "^9.3.9",
+    "read-excel-file": "^9.3.10",
     "zod": "4.4.3"
   },
   "devDependencies": {
