@@ -224,6 +224,7 @@ export function DoraCommandCentre({
             lastAnalysis={lastAnalysis}
             onMenu={() => setNavigationOpen(true)}
             onRefresh={refreshAnalysis}
+            resultCount={filteredIntelligence.length}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
@@ -336,7 +337,10 @@ export function DoraCommandCentre({
               onInspect={(title, summary) => openAnalysis(title, summary)}
             />
 
-            <section className="mt-6 grid gap-5 lg:grid-cols-12">
+            <section
+              className="mt-6 grid scroll-mt-24 gap-5 lg:grid-cols-12"
+              id="latest-intelligence"
+            >
               <LatestIntelligence
                 className="lg:col-span-7"
                 items={filteredIntelligence}
@@ -633,6 +637,7 @@ function CommandTopBar({
   lastAnalysis,
   onMenu,
   onRefresh,
+  resultCount,
   searchQuery,
   setSearchQuery,
 }: {
@@ -640,6 +645,7 @@ function CommandTopBar({
   readonly lastAnalysis: string;
   readonly onMenu: () => void;
   readonly onRefresh: () => void;
+  readonly resultCount: number;
   readonly searchQuery: string;
   readonly setSearchQuery: (value: string) => void;
 }) {
@@ -664,21 +670,37 @@ function CommandTopBar({
           {appName}
         </span>
       </div>
-      <label className="relative min-w-0 max-w-[520px] flex-1 sm:ml-2 xl:ml-0">
-        <span className="sr-only">Search latest intelligence</span>
-        <Search
-          aria-hidden="true"
-          className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ink-muted)]"
-          size={15}
-        />
-        <input
-          className="h-10 w-full rounded-[9px] border border-white/70 bg-white/60 pl-9 pr-3 text-xs shadow-[var(--shadow-control)] outline-none backdrop-blur-lg placeholder:text-[var(--ink-faint)] focus:border-[var(--cyan)] focus:bg-white"
-          onChange={(event) => setSearchQuery(event.target.value)}
-          placeholder="Search latest intelligence"
-          type="search"
-          value={searchQuery}
-        />
-      </label>
+      <form
+        className="relative min-w-0 max-w-[520px] flex-1 sm:ml-2 xl:ml-0"
+        onSubmit={(event) => {
+          event.preventDefault();
+          document
+            .getElementById("latest-intelligence")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+        role="search"
+      >
+        <label className="relative block">
+          <span className="sr-only">Search latest intelligence</span>
+          <Search
+            aria-hidden="true"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--ink-muted)]"
+            size={15}
+          />
+          <input
+            className={`h-10 w-full rounded-[9px] border border-white/70 bg-white/60 pl-9 text-xs shadow-[var(--shadow-control)] outline-none backdrop-blur-lg placeholder:text-[var(--ink-faint)] focus:border-[var(--cyan)] focus:bg-white ${searchQuery.trim() ? "pr-20" : "pr-3"}`}
+            onChange={(event) => setSearchQuery(event.target.value)}
+            placeholder="Search latest intelligence"
+            type="search"
+            value={searchQuery}
+          />
+        </label>
+        {searchQuery.trim() ? (
+          <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-semibold text-[var(--ink-muted)]">
+            {resultCount} result{resultCount === 1 ? "" : "s"}
+          </span>
+        ) : null}
+      </form>
       <div className="ml-auto hidden text-right lg:block">
         <div className="text-[10px] font-bold">Analysis {lastAnalysis}</div>
         <div className="mt-0.5 text-[9px] text-[var(--ink-muted)]">
