@@ -1,0 +1,589 @@
+openapi: 3.0.3
+info:
+  title: DORA API
+  version: 1.0.0-phase1
+  description: >
+    REST API for the DORA commodity decision-intelligence platform (Phase 1).
+    Endpoints marked "Future" are reserved for later phases and are not guaranteed
+    to be enabled in the current deployment. All numeric results originate from
+    deterministic engines; AI endpoints add evidence-grounded explanation only.
+  contact:
+    name: DORA
+    url: https://github.com/polyfuze4336-bot/DoraAI
+servers:
+  - url: https://dora-web.nicefield-0eb02a6f.eastus2.azurecontainerapps.io
+    description: Deployed prototype (Azure Container Apps)
+  - url: http://localhost:3000
+    description: Local development
+
+tags:
+  - name: system
+    description: Health and configuration
+  - name: auth
+    description: Authentication
+  - name: intelligence
+    description: Forecasts, risks, scenarios, sources, timeline
+  - name: knowledge
+    description: Document knowledge and retrieval
+  - name: reporting
+    description: Management reports
+  - name: assistant
+    description: Ask DORA
+  - name: admin
+    description: Administrative operations
+
+paths:
+  /api/health:
+    get:
+      tags: [system]
+      summary: Application health and intelligence domains
+      operationId: getHealth
+      security: []
+      responses:
+        '200':
+          description: Service status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthResponse'
+
+  /api/providers:
+    get:
+      tags: [system]
+      summary: Provider categories and non-secret configuration status
+      operationId: getProviders
+      responses:
+        '200':
+          description: Provider status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProvidersResponse'
+
+  /api/settings:
+    get:
+      tags: [system]
+      summary: Application settings (authenticated)
+      operationId: getSettings
+      responses:
+        '200':
+          description: Settings
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/auth/login:
+    post:
+      tags: [auth]
+      summary: Sign in (database provider)
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Session cookie set
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/auth/logout:
+    post:
+      tags: [auth]
+      summary: Sign out
+      operationId: logout
+      responses:
+        '200':
+          description: Session cleared
+
+  /api/forecasts/accuracy:
+    get:
+      tags: [intelligence]
+      summary: Forecast accuracy metrics
+      operationId: getForecastAccuracy
+      responses:
+        '200':
+          description: Accuracy metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/risks:
+    get:
+      tags: [intelligence]
+      summary: Deterministic risk assessments
+      operationId: getRisks
+      responses:
+        '200':
+          description: Risk list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Risk'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/scenarios:
+    get:
+      tags: [intelligence]
+      summary: Deterministic scenario projections
+      operationId: getScenarios
+      responses:
+        '200':
+          description: Scenario list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scenario'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/sources:
+    get:
+      tags: [intelligence]
+      summary: Data source status and provenance
+      operationId: getSources
+      responses:
+        '200':
+          description: Source list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Source'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/timeline:
+    get:
+      tags: [intelligence]
+      summary: Event timeline (includes demo/seeded events)
+      operationId: getTimeline
+      responses:
+        '200':
+          description: Timeline events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TimelineEvent'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/manufacturing:
+    get:
+      tags: [intelligence]
+      summary: Manufacturing signals (DEMO / synthetic data)
+      operationId: getManufacturing
+      responses:
+        '200':
+          description: Manufacturing signals
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/performance:
+    get:
+      tags: [intelligence]
+      summary: Performance metrics
+      operationId: getPerformance
+      responses:
+        '200':
+          description: Performance metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/alerts:
+    get:
+      tags: [intelligence]
+      summary: Active alerts
+      operationId: getAlerts
+      responses:
+        '200':
+          description: Alert list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/ask-dora:
+    post:
+      tags: [assistant]
+      summary: Ask DORA (deterministic baseline + grounded AI synthesis)
+      description: >
+        Returns a deterministic answer as the guaranteed baseline. When Microsoft
+        Foundry synthesis is configured, an evidence-grounded explanation is added.
+      operationId: askDora
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AskRequest'
+      responses:
+        '200':
+          description: Grounded answer
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/knowledge/search:
+    post:
+      tags: [knowledge]
+      summary: Search knowledge (Azure AI Search)
+      operationId: searchKnowledge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+              required: [query]
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/knowledge/answer:
+    post:
+      tags: [knowledge]
+      summary: Answer from indexed knowledge (grounded)
+      operationId: answerKnowledge
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query:
+                  type: string
+              required: [query]
+      responses:
+        '200':
+          description: Grounded answer
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/knowledge/documents:
+    get:
+      tags: [knowledge]
+      summary: List indexed documents
+      operationId: listDocuments
+      responses:
+        '200':
+          description: Documents
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/knowledge/upload:
+    post:
+      tags: [knowledge]
+      summary: Upload a document for indexing
+      operationId: uploadDocument
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Upload accepted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/reports:
+    get:
+      tags: [reporting]
+      summary: List generated reports
+      operationId: listReports
+      responses:
+        '200':
+          description: Reports
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Report'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /api/reports/{reportId}/download:
+    get:
+      tags: [reporting]
+      summary: Download a report artefact
+      operationId: downloadReport
+      parameters:
+        - name: reportId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Report artefact
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          description: Not found
+
+  /api/admin/schedules:
+    get:
+      tags: [admin]
+      summary: Scheduled processing status (admin only)
+      operationId: getSchedules
+      responses:
+        '200':
+          description: Schedule status
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Forbidden
+
+  /api/telemetry/client-error:
+    post:
+      tags: [system]
+      summary: Report a client-side error
+      operationId: reportClientError
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        '204':
+          description: Accepted
+
+components:
+  securitySchemes:
+    sessionCookie:
+      type: apiKey
+      in: cookie
+      name: dora_session
+      description: >
+        Signed HTTP-only session cookie issued by /api/auth/login (Phase 1 database
+        provider). In production the Microsoft Entra boundary is used instead.
+
+  responses:
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+      required: [error]
+
+    HealthResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        mode:
+          type: string
+          example: connected
+        domains:
+          type: array
+          items:
+            type: string
+          example: [prices, news, risk, forecasts, manufacturing]
+
+    ProvidersResponse:
+      type: object
+      properties:
+        categories:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              enabled:
+                type: boolean
+
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+      required: [username, password]
+
+    Risk:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        score:
+          type: number
+        severity:
+          type: string
+        rationale:
+          type: string
+
+    Scenario:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        horizonDays:
+          type: integer
+        projection:
+          type: array
+          items:
+            type: number
+
+    Source:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        category:
+          type: string
+        status:
+          type: string
+          description: LIVE, PLANNED, NOT_CONNECTED, FUTURE, or DEMO
+        realOrDemo:
+          type: string
+          enum: [real, demo]
+
+    TimelineEvent:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        title:
+          type: string
+        source:
+          type: string
+
+    AskRequest:
+      type: object
+      properties:
+        question:
+          type: string
+      required: [question]
+
+    AskResponse:
+      type: object
+      properties:
+        answer:
+          type: string
+        deterministic:
+          type: boolean
+          description: True when the answer is the deterministic baseline
+        evidence:
+          type: array
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+              excerpt:
+                type: string
+
+    Report:
+      type: object
+      properties:
+        reportId:
+          type: string
+        title:
+          type: string
+        generatedAt:
+          type: string
+          format: date-time
+
+security:
+  - sessionCookie: []
+
