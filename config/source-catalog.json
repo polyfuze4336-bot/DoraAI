@@ -1,0 +1,98 @@
+[
+  {
+    "id": "eia-energy",
+    "name": "EIA",
+    "type": "Public API",
+    "authentication": "API key",
+    "configuredReliability": 0.9,
+    "commercial": false
+  },
+  {
+    "id": "gdelt-global-news",
+    "name": "GDELT",
+    "type": "News API",
+    "authentication": "Public",
+    "configuredReliability": 0.62,
+    "commercial": false
+  },
+  {
+    "id": "world-bank-pink-sheet",
+    "name": "World Bank Pink Sheet",
+    "type": "Reference data",
+    "authentication": "Public",
+    "configuredReliability": 0.88,
+    "commercial": false
+  },
+  {
+    "id": "fred-macro",
+    "name": "FRED",
+    "type": "Macro API",
+    "authentication": "API key",
+    "configuredReliability": 0.9,
+    "commercial": false
+  },
+  {
+    "id": "sharepoint-graph",
+    "name": "SharePoint",
+    "type": "Enterprise documents",
+    "authentication": "Managed Identity / Entra application",
+    "configuredReliability": 0.82,
+    "commercial": false
+  },
+  {
+    "id": "azure-databricks-sql",
+    "name": "Databricks",
+    "type": "Enterprise analytics",
+    "authentication": "Managed Identity / Entra application",
+    "configuredReliability": 0.84,
+    "commercial": false
+  },
+  {
+    "id": "power-bi-semantic-model",
+    "name": "Power BI",
+    "type": "Semantic model",
+    "authentication": "Managed Identity / Entra application",
+    "configuredReliability": 0.8,
+    "commercial": false
+  },
+  {
+    "id": "reuters-future",
+    "name": "Reuters",
+    "type": "Commercial market/news",
+    "authentication": "Awaiting commercial agreement",
+    "configuredReliability": 0.95,
+    "commercial": true
+  },
+  {
+    "id": "icis-future",
+    "name": "ICIS",
+    "type": "Commercial chemicals",
+    "authentication": "Awaiting commercial agreement",
+    "configuredReliability": 0.95,
+    "commercial": true
+  },
+  {
+    "id": "argus-future",
+    "name": "Argus",
+    "type": "Commercial energy",
+    "authentication": "Awaiting commercial agreement",
+    "configuredReliability": 0.95,
+    "commercial": true
+  },
+  {
+    "id": "platts-future",
+    "name": "S&P Global / Platts",
+    "type": "Commercial commodities",
+    "authentication": "Awaiting commercial agreement",
+    "configuredReliability": 0.96,
+    "commercial": true
+  },
+  {
+    "id": "woodmac-future",
+    "name": "Wood Mackenzie",
+    "type": "Commercial research",
+    "authentication": "Awaiting commercial agreement",
+    "configuredReliability": 0.94,
+    "commercial": true
+  }
+]

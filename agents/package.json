@@ -1,0 +1,21 @@
+{
+  "name": "@dora/agents",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@azure/identity": "4.13.1",
+    "@dora/intelligence": "0.1.0",
+    "@dora/observability": "0.1.0",
+    "@dora/shared": "0.1.0"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3"
+  }
+}

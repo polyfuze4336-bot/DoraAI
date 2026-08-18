@@ -1,0 +1,51 @@
+{
+  "timezone": "Asia/Kuala_Lumpur",
+  "containerAppsDispatcher": {
+    "cron": "*/30 * * * *",
+    "description": "Configuration-driven dispatcher for due ingestion and synthesis work."
+  },
+  "jobs": [
+    {
+      "id": "commodity-prices",
+      "label": "Commodity prices",
+      "enabled": true,
+      "schedule": { "type": "interval", "minutes": 60 },
+      "providerTypes": ["eia", "world-bank-pink-sheet"]
+    },
+    {
+      "id": "news",
+      "label": "News",
+      "enabled": true,
+      "schedule": { "type": "interval", "minutes": 30 },
+      "providerTypes": ["gdelt"]
+    },
+    {
+      "id": "market-intelligence",
+      "label": "Market intelligence",
+      "enabled": true,
+      "schedule": { "type": "source-refresh" },
+      "providerTypes": ["fred", "databricks", "sharepoint", "power-bi"]
+    },
+    {
+      "id": "manufacturing",
+      "label": "Manufacturing",
+      "enabled": true,
+      "schedule": { "type": "interval", "minutes": 60 },
+      "providerTypes": ["internal-manufacturing"]
+    },
+    {
+      "id": "daily-synthesis",
+      "label": "Full DORA synthesis",
+      "enabled": true,
+      "schedule": { "type": "daily", "localTime": "06:30" },
+      "providerTypes": []
+    },
+    {
+      "id": "monday-management-brief",
+      "label": "Monday management brief",
+      "enabled": true,
+      "schedule": { "type": "weekly", "day": "Monday", "localTime": "08:00" },
+      "providerTypes": []
+    }
+  ]
+}

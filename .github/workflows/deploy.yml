@@ -1,0 +1,91 @@
+name: Deploy DORA
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Deployment environment
+        type: choice
+        required: true
+        options: [development, prototype, production]
+      deploy_workloads:
+        description: Build, push and update configured Container Apps workloads
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  id-token: write
+  security-events: write
+
+env:
+  DEPLOYMENT_ENVIRONMENT: ${{ inputs.environment }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm test
+      - run: npm audit --audit-level=high
+      - run: npm run build
+      - name: Validate environment Bicep
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az bicep build --file infra/main.bicep --outfile /tmp/dora-main.json
+            az bicep build-params --file "infra/environments/${DEPLOYMENT_ENVIRONMENT}.bicepparam" --outfile /tmp/dora-env.json
+
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Azure login with OIDC
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+      - name: Deploy reuse-first infrastructure
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az deployment group create \
+              --name "dora-${DEPLOYMENT_ENVIRONMENT}-${GITHUB_RUN_NUMBER}" \
+              --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
+              --parameters "infra/environments/${DEPLOYMENT_ENVIRONMENT}.bicepparam"
+      - name: Build and push workload images
+        if: ${{ inputs.deploy_workloads && vars.AZURE_CONTAINER_REGISTRY != '' }}
+        shell: bash
+        run: |
+          az acr login --name "${{ vars.AZURE_CONTAINER_REGISTRY }}"
+          REGISTRY="${{ vars.AZURE_CONTAINER_REGISTRY }}.azurecr.io"
+          WEB_IMAGE="${REGISTRY}/dora-web:${GITHUB_SHA}"
+          PIPELINE_IMAGE="${REGISTRY}/dora-pipeline:${GITHUB_SHA}"
+          docker build -f infrastructure/containers/web.Dockerfile -t "$WEB_IMAGE" .
+          docker build -f infrastructure/containers/pipeline.Dockerfile -t "$PIPELINE_IMAGE" .
+          docker push "$WEB_IMAGE"
+          docker push "$PIPELINE_IMAGE"
+          echo "WEB_IMAGE=$WEB_IMAGE" >> "$GITHUB_ENV"
+          echo "PIPELINE_IMAGE=$PIPELINE_IMAGE" >> "$GITHUB_ENV"
+      - name: Deploy web revision
+        if: ${{ inputs.deploy_workloads && vars.DORA_WEB_APP_NAME != '' && vars.AZURE_CONTAINER_REGISTRY != '' }}
+        run: az containerapp update --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "${{ vars.DORA_WEB_APP_NAME }}" --image "$WEB_IMAGE"
+      - name: Deploy pipeline job revision
+        if: ${{ inputs.deploy_workloads && vars.DORA_PIPELINE_JOB_NAME != '' && vars.AZURE_CONTAINER_REGISTRY != '' }}
+        run: az containerapp job update --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" --name "${{ vars.DORA_PIPELINE_JOB_NAME }}" --image "$PIPELINE_IMAGE"

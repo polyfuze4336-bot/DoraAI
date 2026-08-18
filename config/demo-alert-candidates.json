@@ -1,0 +1,82 @@
+[
+  {
+    "type": "price-movement",
+    "severity": "high",
+    "commodity": "Brent",
+    "reason": "Brent changed more than the configured 5% threshold over 30 days.",
+    "timestamp": "2026-08-17T09:00:00.000Z",
+    "evidence": ["BRENT-market-snapshot"],
+    "recommendedNextAction": "Review feedstock exposure and purchasing thresholds.",
+    "deduplicationKey": "price:brent:5pct"
+  },
+  {
+    "type": "forecast-change",
+    "severity": "medium",
+    "commodity": "Copper",
+    "reason": "The 30-day outlook moved from neutral to bullish.",
+    "timestamp": "2026-08-17T08:30:00.000Z",
+    "evidence": ["forecast-copper-30d"],
+    "recommendedNextAction": "Review the model change and contradictory signals before adjusting coverage.",
+    "deduplicationKey": "forecast:copper:30d:bullish"
+  },
+  {
+    "type": "risk-threshold",
+    "severity": "high",
+    "commodity": "Crude oil",
+    "reason": "Gulf transit disruption crossed the high-risk threshold.",
+    "timestamp": "2026-08-17T08:00:00.000Z",
+    "evidence": ["risk-gulf-shipping"],
+    "recommendedNextAction": "Validate route contingency and freight exposure.",
+    "deduplicationKey": "risk:gulf-shipping:high"
+  },
+  {
+    "type": "anomaly",
+    "severity": "medium",
+    "commodity": "Nickel",
+    "reason": "Nickel movement exceeded the monitored historical z-score threshold.",
+    "timestamp": "2026-08-17T07:45:00.000Z",
+    "evidence": ["nickel-anomaly-1"],
+    "recommendedNextAction": "Validate the observation against a second source.",
+    "deduplicationKey": "anomaly:nickel:price"
+  },
+  {
+    "type": "source-outage",
+    "severity": "medium",
+    "commodity": null,
+    "reason": "GDELT refresh failed repeatedly and news freshness deteriorated.",
+    "timestamp": "2026-08-17T07:30:00.000Z",
+    "evidence": ["source:gdelt-global-news"],
+    "recommendedNextAction": "Inspect connector health and rely on corroborated sources until recovery.",
+    "deduplicationKey": "source:gdelt:outage"
+  },
+  {
+    "type": "important-news",
+    "severity": "high",
+    "commodity": "Crude oil",
+    "reason": "A material shipping event was detected in monitored news.",
+    "timestamp": "2026-08-17T07:00:00.000Z",
+    "evidence": ["news-shipping-event-1"],
+    "recommendedNextAction": "Review the cited event and confirm operational relevance.",
+    "deduplicationKey": "news:shipping:event"
+  },
+  {
+    "type": "manufacturing-disruption",
+    "severity": "critical",
+    "commodity": "Feedstocks",
+    "reason": "Santos utilization and output declined beyond configured thresholds.",
+    "timestamp": "2026-08-17T06:30:00.000Z",
+    "evidence": ["demo-santos-blending"],
+    "recommendedNextAction": "Assign an operations owner and validate feedstock continuity.",
+    "deduplicationKey": "manufacturing:santos:disruption"
+  },
+  {
+    "type": "confidence-deterioration",
+    "severity": "low",
+    "commodity": "Natural gas",
+    "reason": "Forecast confidence declined as source freshness and agreement weakened.",
+    "timestamp": "2026-08-17T06:00:00.000Z",
+    "evidence": ["forecast-ng-confidence"],
+    "recommendedNextAction": "Refresh stale inputs before relying on the forecast midpoint.",
+    "deduplicationKey": "confidence:ng:deterioration"
+  }
+]

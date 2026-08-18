@@ -1,0 +1,146 @@
+[
+  {
+    "riskId": "risk-gulf-shipping",
+    "title": "Gulf transit disruption",
+    "description": "Elevated security activity could restrict tanker transit and increase freight premiums.",
+    "category": "Shipping",
+    "commodity": "Crude oil",
+    "region": "Middle East",
+    "baseLikelihood": 0.72,
+    "signalStrength": 0.84,
+    "sourceAgreement": 0.78,
+    "exposure": 0.9,
+    "impactSeverity": 0.92,
+    "velocityIndicator": 0.86,
+    "dataConfidence": 0.87,
+    "firstDetected": "2026-08-12T08:00:00.000Z",
+    "lastUpdated": "2026-08-17T09:30:00.000Z",
+    "status": "escalated",
+    "supportingSignals": [
+      "shipping-delay-17",
+      "freight-premium-8",
+      "brent-spread-4"
+    ],
+    "evidence": [
+      {
+        "id": "evidence-shipping-1",
+        "label": "Shipping route signal",
+        "sourceUrl": "https://example.test/evidence/shipping-route"
+      },
+      {
+        "id": "evidence-freight-1",
+        "label": "Freight premium series",
+        "sourceUrl": "https://example.test/evidence/freight-premium"
+      }
+    ],
+    "managementImplication": "Review route contingencies and near-term crude coverage before freight premiums widen further."
+  },
+  {
+    "riskId": "risk-copper-mine",
+    "title": "Copper mine supply interruption",
+    "description": "Labor and power constraints may reduce concentrate availability from a major producing region.",
+    "category": "Supply disruption",
+    "commodity": "Copper",
+    "region": "South America",
+    "baseLikelihood": 0.62,
+    "signalStrength": 0.76,
+    "sourceAgreement": 0.71,
+    "exposure": 0.78,
+    "impactSeverity": 0.82,
+    "velocityIndicator": 0.63,
+    "dataConfidence": 0.81,
+    "firstDetected": "2026-08-10T11:00:00.000Z",
+    "lastUpdated": "2026-08-17T07:15:00.000Z",
+    "status": "active",
+    "supportingSignals": ["mine-output-3", "copper-inventory-11"],
+    "evidence": [
+      {
+        "id": "evidence-copper-1",
+        "label": "Mine output update",
+        "sourceUrl": "https://example.test/evidence/mine-output"
+      }
+    ],
+    "managementImplication": "Test alternate concentrate sourcing and validate inventory cover under a six-week disruption."
+  },
+  {
+    "riskId": "risk-eu-gas-weather",
+    "title": "European gas weather demand",
+    "description": "An early cold pattern could lift power-sector gas demand before storage withdrawals are planned.",
+    "category": "Weather",
+    "commodity": "Natural gas",
+    "region": "Europe",
+    "baseLikelihood": 0.48,
+    "signalStrength": 0.58,
+    "sourceAgreement": 0.52,
+    "exposure": 0.7,
+    "impactSeverity": 0.68,
+    "velocityIndicator": 0.74,
+    "dataConfidence": 0.65,
+    "firstDetected": "2026-08-14T06:00:00.000Z",
+    "lastUpdated": "2026-08-17T06:45:00.000Z",
+    "status": "watching",
+    "supportingSignals": ["weather-model-6", "gas-storage-9"],
+    "evidence": [
+      {
+        "id": "evidence-weather-1",
+        "label": "Weather model ensemble",
+        "sourceUrl": "https://example.test/evidence/weather"
+      }
+    ],
+    "managementImplication": "Monitor forecast convergence before changing winter hedge timing."
+  },
+  {
+    "riskId": "risk-china-demand",
+    "title": "China manufacturing demand slowdown",
+    "description": "Weaker industrial orders may reduce metals demand and soften regional premiums.",
+    "category": "Manufacturing slowdown",
+    "commodity": "Aluminium",
+    "region": "China",
+    "baseLikelihood": 0.58,
+    "signalStrength": 0.64,
+    "sourceAgreement": 0.67,
+    "exposure": 0.56,
+    "impactSeverity": 0.6,
+    "velocityIndicator": 0.45,
+    "dataConfidence": 0.76,
+    "firstDetected": "2026-08-05T03:00:00.000Z",
+    "lastUpdated": "2026-08-16T23:00:00.000Z",
+    "status": "active",
+    "supportingSignals": ["pmi-new-orders-2", "aluminium-premium-5"],
+    "evidence": [
+      {
+        "id": "evidence-demand-1",
+        "label": "Manufacturing order index",
+        "sourceUrl": "https://example.test/evidence/orders"
+      }
+    ],
+    "managementImplication": "Avoid overcommitting inventory until downstream order momentum stabilizes."
+  },
+  {
+    "riskId": "risk-fx-dollar",
+    "title": "Dollar strengthening",
+    "description": "Broad dollar appreciation could raise local-currency feedstock costs despite stable commodity prices.",
+    "category": "FX",
+    "commodity": "Multi-commodity",
+    "region": "Global",
+    "baseLikelihood": 0.44,
+    "signalStrength": 0.55,
+    "sourceAgreement": 0.73,
+    "exposure": 0.62,
+    "impactSeverity": 0.58,
+    "velocityIndicator": 0.39,
+    "dataConfidence": 0.84,
+    "firstDetected": "2026-08-02T12:00:00.000Z",
+    "lastUpdated": "2026-08-17T08:00:00.000Z",
+    "status": "watching",
+    "supportingSignals": ["dxy-trend-12", "fx-volatility-4"],
+    "evidence": [
+      {
+        "id": "evidence-fx-1",
+        "label": "Dollar index trend",
+        "sourceUrl": "https://example.test/evidence/dxy"
+      }
+    ],
+    "managementImplication": "Evaluate commodity and currency exposure together when reviewing purchase timing."
+  }
+]

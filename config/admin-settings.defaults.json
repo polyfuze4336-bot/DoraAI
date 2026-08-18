@@ -1,0 +1,79 @@
+{
+  "commodities": [
+    { "id": "crude-oil-brent", "name": "Brent crude", "enabled": true },
+    { "id": "crude-oil-wti", "name": "WTI crude", "enabled": true },
+    { "id": "natural-gas-us", "name": "Natural gas", "enabled": true },
+    { "id": "copper", "name": "Copper", "enabled": true },
+    { "id": "aluminium", "name": "Aluminium", "enabled": true },
+    { "id": "nickel", "name": "Nickel", "enabled": true },
+    { "id": "gold", "name": "Gold", "enabled": true },
+    { "id": "palm-oil", "name": "Palm oil", "enabled": true }
+  ],
+  "regions": [
+    "Global",
+    "North America",
+    "Europe",
+    "Asia Pacific",
+    "Middle East",
+    "South America"
+  ],
+  "providers": {
+    "eia-energy": {
+      "enabled": false,
+      "refreshMinutes": 60,
+      "keyVaultSecretName": "dora-eia-api-key"
+    },
+    "fred-macro": {
+      "enabled": false,
+      "refreshMinutes": 360,
+      "keyVaultSecretName": "dora-fred-api-key"
+    },
+    "gdelt-global-news": { "enabled": true, "refreshMinutes": 30 },
+    "world-bank-pink-sheet": { "enabled": true, "refreshMinutes": 1440 },
+    "sharepoint-graph": {
+      "enabled": false,
+      "refreshMinutes": 60,
+      "keyVaultSecretName": "dora-sharepoint-app-credential"
+    },
+    "azure-databricks-sql": {
+      "enabled": false,
+      "refreshMinutes": 360,
+      "keyVaultSecretName": "dora-databricks-app-credential"
+    },
+    "power-bi-semantic-model": {
+      "enabled": false,
+      "refreshMinutes": 360,
+      "keyVaultSecretName": "dora-powerbi-app-credential"
+    }
+  },
+  "refreshSchedules": {
+    "commodity-prices": 60,
+    "news": 30,
+    "manufacturing": 60
+  },
+  "weeklyReportSchedule": {
+    "day": "Monday",
+    "localTime": "08:00",
+    "timezone": "Asia/Kuala_Lumpur"
+  },
+  "reportRecipients": [],
+  "alertThresholds": {
+    "priceMovementPercent": 5,
+    "forecastDirectionChange": true,
+    "riskScore": 0.55,
+    "anomalyZScore": 2,
+    "manufacturingUtilizationDropPercent": 10,
+    "confidenceDropPercent": 15
+  },
+  "aiModels": {
+    "fastDeployment": "dora-fast",
+    "reasoningDeployment": "dora-reasoning",
+    "embeddingDeployment": "dora-embedding"
+  },
+  "forecastHorizons": [1, 7, 30, 90],
+  "riskThresholds": {
+    "medium": 0.18,
+    "high": 0.35,
+    "critical": 0.55
+  }
+}

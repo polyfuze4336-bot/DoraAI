@@ -1,0 +1,26 @@
+{
+  "name": "@dora/connectors",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts.ts",
+    "./provider-config": "./src/provider-config.ts",
+    "./providers/eia": "./src/providers/eia-commodity-price-provider.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@azure/identity": "4.13.1",
+    "@dora/observability": "0.1.0",
+    "@dora/shared": "0.1.0",
+    "read-excel-file": "^9.3.9",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.15",
+    "typescript": "5.9.3"
+  }
+}

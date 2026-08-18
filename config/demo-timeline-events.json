@@ -1,0 +1,123 @@
+[
+  {
+    "id": "tl-1",
+    "timestamp": "2026-06-03T08:00:00.000Z",
+    "type": "news",
+    "commodity": "Brent",
+    "title": "Supply disruption reported",
+    "description": "A monitored production disruption entered DORA's evidence stream.",
+    "value": null,
+    "evidenceIds": ["news-supply-jun3"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-2",
+    "timestamp": "2026-06-04T07:30:00.000Z",
+    "type": "risk",
+    "commodity": "Brent",
+    "title": "DORA risk score rises",
+    "description": "Supply disruption probability and velocity crossed the medium threshold.",
+    "value": 0.38,
+    "evidenceIds": ["risk-supply-jun4"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-3",
+    "timestamp": "2026-06-05T16:00:00.000Z",
+    "type": "commodity",
+    "commodity": "Brent",
+    "title": "Brent +3.2%",
+    "description": "The market moved after the source event and risk-score increase.",
+    "value": 3.2,
+    "evidenceIds": ["price-brent-jun5"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-4",
+    "timestamp": "2026-06-06T06:00:00.000Z",
+    "type": "forecast",
+    "commodity": "Brent",
+    "title": "30-day forecast changed to Bullish",
+    "description": "Measured baseline direction moved from neutral to bullish.",
+    "value": 0.72,
+    "evidenceIds": ["forecast-brent-jun6"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-5",
+    "timestamp": "2026-06-06T09:00:00.000Z",
+    "type": "recommendation",
+    "commodity": "Brent",
+    "title": "Review near-term feedstock cover",
+    "description": "DORA recommended checking purchasing thresholds and route exposure.",
+    "value": null,
+    "evidenceIds": ["recommendation-jun6"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-6",
+    "timestamp": "2026-06-12T05:00:00.000Z",
+    "type": "manufacturing",
+    "commodity": "Feedstocks",
+    "title": "Texas utilization declines",
+    "description": "Utilization moved below the configured operational threshold.",
+    "value": -11.4,
+    "evidenceIds": ["manufacturing-texas-jun12"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-7",
+    "timestamp": "2026-06-13T08:00:00.000Z",
+    "type": "risk",
+    "commodity": "Feedstocks",
+    "title": "Continuity risk escalated",
+    "description": "Manufacturing disruption and feedstock availability signals corroborated.",
+    "value": 0.61,
+    "evidenceIds": ["risk-feedstock-jun13"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-8",
+    "timestamp": "2026-07-02T14:00:00.000Z",
+    "type": "commodity",
+    "commodity": "Copper",
+    "title": "Copper inventory premium widens",
+    "description": "Price and inventory signals diverged from softer macro data.",
+    "value": 2.1,
+    "evidenceIds": ["price-copper-jul2"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-9",
+    "timestamp": "2026-07-03T06:00:00.000Z",
+    "type": "forecast",
+    "commodity": "Copper",
+    "title": "Copper outlook remains range-bound",
+    "description": "Contradicting macro evidence limited model confidence.",
+    "value": 0.59,
+    "evidenceIds": ["forecast-copper-jul3"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-10",
+    "timestamp": "2026-08-12T08:00:00.000Z",
+    "type": "news",
+    "commodity": "Brent",
+    "title": "Gulf security activity increases",
+    "description": "Shipping-route evidence preceded the current risk escalation.",
+    "value": null,
+    "evidenceIds": ["evidence-shipping-1"],
+    "dataOrigin": "seeded-demo"
+  },
+  {
+    "id": "tl-11",
+    "timestamp": "2026-08-17T09:30:00.000Z",
+    "type": "risk",
+    "commodity": "Brent",
+    "title": "Gulf transit risk reaches high",
+    "description": "Deterministic risk score reached 54 on the prototype scale.",
+    "value": 0.54,
+    "evidenceIds": ["risk-gulf-shipping"],
+    "dataOrigin": "seeded-demo"
+  }
+]

@@ -1,0 +1,27 @@
+{
+  "name": "@dora/knowledge",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@xmldom/xmldom": "0.9.10",
+    "@azure/identity": "4.13.1",
+    "@dora/connectors": "0.1.0",
+    "@dora/intelligence": "0.1.0",
+    "@dora/storage": "0.1.0",
+    "@dora/shared": "0.1.0",
+    "fflate": "0.8.3",
+    "pdfjs-dist": "6.2.108",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.15",
+    "typescript": "5.9.3"
+  }
+}

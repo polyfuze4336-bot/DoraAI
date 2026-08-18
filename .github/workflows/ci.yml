@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  workflow_call: {}
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npm run lint
+      - name: Test
+        run: npm test
+      - name: Dependency security check
+        run: npm audit --audit-level=high
+      - name: Static secret-pattern check
+        shell: bash
+        run: |
+          if git grep -nEI '(api[_-]?key|client[_-]?secret|password|authorization)[[:space:]]*[:=][[:space:]]*["'"'][^"'"']{12,}' -- ':!tests/**'; then
+            echo 'Potential committed credential detected.'
+            exit 1
+          fi
+      - name: Build
+        run: npm run build
+      - name: Validate Bicep
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az bicep build --file infra/main.bicep --outfile /tmp/dora-main.json
+            az bicep build-params --file infra/environments/development.bicepparam --outfile /tmp/dora-dev.json
+            az bicep build --file infrastructure/pipeline-jobs.bicep --outfile /tmp/dora-jobs.json
+      - uses: github/codeql-action/analyze@v3
+      - name: Package build outputs
+        run: |
+          tar -czf dora-web.tgz -C apps/web .next/standalone .next/static
+          tar -czf dora-pipeline.tgz -C services/pipeline dist
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dora-packages-${{ github.sha }}
+          path: |
+            dora-web.tgz
+            dora-pipeline.tgz
+            infra/
+          retention-days: 14

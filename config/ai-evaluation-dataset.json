@@ -1,0 +1,400 @@
+[
+  {
+    "id": "price-brent-weekly-drivers",
+    "question": "Why did Brent increase this week?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["observed-data", "news", "citation"],
+    "requiredTerms": ["Brent", "supply", "shipping"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["guaranteed to rise"]
+  },
+  {
+    "id": "risk-top-three-supply",
+    "question": "What are the top three supply risks?",
+    "workload": "reasoning",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["risk", "citation"],
+    "requiredTerms": ["Gulf transit", "Copper mine", "risk"],
+    "minimumCitations": 3,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["certainty"]
+  },
+  {
+    "id": "change-since-yesterday",
+    "question": "What changed since yesterday?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["observed-data", "news"],
+    "requiredTerms": ["changed", "since yesterday"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["nothing changed"]
+  },
+  {
+    "id": "demand-lower-signals",
+    "question": "Which signals indicate lower demand?",
+    "workload": "reasoning",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["manufacturing", "macro", "citation"],
+    "requiredTerms": ["manufacturing", "demand", "orders"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["all demand is lower"]
+  },
+  {
+    "id": "recommendation-sources",
+    "question": "What sources support the current recommendation?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["citation"],
+    "requiredTerms": ["source", "recommendation"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["model memory"]
+  },
+  {
+    "id": "forecast-7-vs-30",
+    "question": "Compare the 7-day and 30-day Brent forecasts.",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["forecast", "observed-data"],
+    "requiredTerms": ["7-day", "30-day", "uncertainty"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "30-day forecast", "value": 87, "tolerance": 0.5 }
+    ],
+    "prohibitedClaims": ["certain forecast"]
+  },
+  {
+    "id": "developments-after-monday",
+    "question": "Summarise only developments after Monday.",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["news", "citation"],
+    "requiredTerms": ["after Monday"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 120,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["before Monday"]
+  },
+  {
+    "id": "brent-current-price",
+    "question": "What is the current Brent price and when was it observed?",
+    "workload": "fast",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["observed-data", "citation"],
+    "requiredTerms": ["Brent", "observed"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 24,
+    "expectedNumericClaims": [
+      { "label": "Brent price", "value": 84.16, "tolerance": 0.01 }
+    ],
+    "prohibitedClaims": ["live exchange price"]
+  },
+  {
+    "id": "brent-30-day-range",
+    "question": "What is the 30-day Brent forecast range?",
+    "workload": "fast",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["forecast"],
+    "requiredTerms": ["lower bound", "upper bound", "30-day"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "lower bound", "value": 81, "tolerance": 0.5 },
+      { "label": "upper bound", "value": 93, "tolerance": 0.5 }
+    ],
+    "prohibitedClaims": ["price target guarantee"]
+  },
+  {
+    "id": "brent-forecast-confidence",
+    "question": "How confident is DORA in the 30-day Brent forecast?",
+    "workload": "fast",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["forecast"],
+    "requiredTerms": ["confidence", "uncertainty"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "forecast confidence", "value": 72, "tolerance": 1 }
+    ],
+    "prohibitedClaims": ["72% probability of price increase"]
+  },
+  {
+    "id": "contradict-bullish",
+    "question": "What signals contradict the bullish outlook?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["macro", "manufacturing", "citation"],
+    "requiredTerms": ["contradict", "macro", "manufacturing"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["no contradictory signals"]
+  },
+  {
+    "id": "gulf-risk-score",
+    "question": "How severe is the Gulf transit disruption risk?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["risk", "citation"],
+    "requiredTerms": ["Gulf transit", "probability", "impact"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [
+      { "label": "probability", "value": 78, "tolerance": 1 },
+      { "label": "impact", "value": 91, "tolerance": 1 }
+    ],
+    "prohibitedClaims": ["will occur"]
+  },
+  {
+    "id": "gulf-management-action",
+    "question": "What action should management take on Gulf transit risk?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["risk", "citation"],
+    "requiredTerms": ["route contingency", "coverage", "monitor"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["buy immediately"]
+  },
+  {
+    "id": "copper-supply-risk",
+    "question": "Explain the copper mine supply interruption signal.",
+    "workload": "reasoning",
+    "commodityIds": ["CU"],
+    "requiredEvidenceKinds": ["risk", "news", "citation"],
+    "requiredTerms": ["Copper", "mine", "supply"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["confirmed permanent closure"]
+  },
+  {
+    "id": "nickel-weakness",
+    "question": "Why is nickel weaker than other metals?",
+    "workload": "reasoning",
+    "commodityIds": ["NI"],
+    "requiredEvidenceKinds": ["observed-data", "news", "macro"],
+    "requiredTerms": ["Nickel", "metals", "demand"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [
+      { "label": "Nickel 30-day change", "value": -5.7, "tolerance": 0.1 }
+    ],
+    "prohibitedClaims": ["all metals are weaker"]
+  },
+  {
+    "id": "natural-gas-direction",
+    "question": "Is natural gas trending or range-bound?",
+    "workload": "fast",
+    "commodityIds": ["NG"],
+    "requiredEvidenceKinds": ["observed-data", "forecast"],
+    "requiredTerms": ["natural gas", "range-bound", "mixed"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["strong bullish trend"]
+  },
+  {
+    "id": "manufacturing-constrained-sites",
+    "question": "Which manufacturing sites are constrained or disrupted?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["manufacturing", "citation"],
+    "requiredTerms": ["Santos", "Texas", "constrained"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["live internal telemetry"]
+  },
+  {
+    "id": "manufacturing-utilization",
+    "question": "What is weighted manufacturing utilization?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["manufacturing"],
+    "requiredTerms": ["weighted utilization", "demo"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [
+      { "label": "weighted utilization", "value": 75, "tolerance": 1 }
+    ],
+    "prohibitedClaims": ["production ERP"]
+  },
+  {
+    "id": "rotterdam-cover",
+    "question": "How much critical material cover remains at Rotterdam?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["manufacturing", "citation"],
+    "requiredTerms": ["Rotterdam", "material cover", "days"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "material cover days", "value": 9, "tolerance": 0.1 }
+    ],
+    "prohibitedClaims": ["inventory is exhausted"]
+  },
+  {
+    "id": "oil-plus-ten-scenario",
+    "question": "What happens if oil rises another 10%?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["scenario", "forecast"],
+    "requiredTerms": ["scenario", "assumption", "sensitivity"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "scenario Brent price", "value": 92.58, "tolerance": 0.1 }
+    ],
+    "prohibitedClaims": ["prediction"]
+  },
+  {
+    "id": "shipping-70-scenario",
+    "question": "Interpret a 70% shipping disruption lasting 30 days.",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["scenario", "risk"],
+    "requiredTerms": ["shipping disruption", "30 days", "assumption"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "shipping disruption", "value": 70, "tolerance": 0 },
+      { "label": "duration days", "value": 30, "tolerance": 0 }
+    ],
+    "prohibitedClaims": ["70% probability"]
+  },
+  {
+    "id": "scenario-limitations",
+    "question": "What are the limitations of the scenario model?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["scenario"],
+    "requiredTerms": ["sensitivity", "not probability", "assumptions"],
+    "minimumCitations": 0,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["calibrated probability distribution"]
+  },
+  {
+    "id": "forecast-model-method",
+    "question": "Which model produced the current forecast?",
+    "workload": "fast",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["forecast"],
+    "requiredTerms": ["model", "version", "baseline"],
+    "minimumCitations": 0,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["Foundry generated the numerical forecast"]
+  },
+  {
+    "id": "forecast-invalidation",
+    "question": "What would invalidate the current Brent forecast?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["forecast", "risk", "macro"],
+    "requiredTerms": ["invalidate", "supply", "demand"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["cannot be invalidated"]
+  },
+  {
+    "id": "source-freshness",
+    "question": "Are the sources behind the recommendation current?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["citation", "source-health"],
+    "requiredTerms": ["freshness", "updated", "source"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["all sources are real-time"]
+  },
+  {
+    "id": "source-contradictions",
+    "question": "Do any sources conflict with the current market view?",
+    "workload": "reasoning",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["citation", "macro", "manufacturing"],
+    "requiredTerms": ["conflict", "macro", "manufacturing"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["all sources agree"]
+  },
+  {
+    "id": "executive-summary",
+    "question": "Summarise the market for management.",
+    "workload": "reasoning",
+    "commodityIds": [],
+    "requiredEvidenceKinds": [
+      "observed-data",
+      "risk",
+      "manufacturing",
+      "forecast",
+      "citation"
+    ],
+    "requiredTerms": ["management", "risk", "action"],
+    "minimumCitations": 3,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["guaranteed outcome"]
+  },
+  {
+    "id": "monday-brief-actions",
+    "question": "What should appear in Monday's management brief?",
+    "workload": "reasoning",
+    "commodityIds": [],
+    "requiredEvidenceKinds": [
+      "observed-data",
+      "risk",
+      "manufacturing",
+      "forecast"
+    ],
+    "requiredTerms": ["Brent", "Gulf", "manufacturing", "action"],
+    "minimumCitations": 3,
+    "maximumSourceAgeHours": 168,
+    "expectedNumericClaims": [],
+    "prohibitedClaims": ["confidential internal data"]
+  },
+  {
+    "id": "portfolio-exposure",
+    "question": "Is portfolio exposure within tolerance?",
+    "workload": "fast",
+    "commodityIds": [],
+    "requiredEvidenceKinds": ["observed-data", "manufacturing"],
+    "requiredTerms": ["portfolio exposure", "tolerance"],
+    "minimumCitations": 1,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "portfolio exposure", "value": 18, "tolerance": 0.1 }
+    ],
+    "prohibitedClaims": ["zero exposure"]
+  },
+  {
+    "id": "decision-window",
+    "question": "How long is the current decision window and why?",
+    "workload": "reasoning",
+    "commodityIds": ["BRENT"],
+    "requiredEvidenceKinds": ["manufacturing", "risk", "forecast"],
+    "requiredTerms": ["decision window", "Rotterdam", "coverage"],
+    "minimumCitations": 2,
+    "maximumSourceAgeHours": 48,
+    "expectedNumericClaims": [
+      { "label": "decision window days", "value": 9, "tolerance": 0.1 }
+    ],
+    "prohibitedClaims": ["fixed deadline"]
+  }
+]

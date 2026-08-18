@@ -1,0 +1,197 @@
+[
+  {
+    "id": "eia-energy",
+    "type": "eia",
+    "enabled": false,
+    "refreshMinutes": 60,
+    "baseUrl": "https://api.eia.gov",
+    "authentication": {
+      "type": "apiKey",
+      "apiKeyEnv": "EIA_API_KEY"
+    },
+    "observationsPerSeries": 120,
+    "runtime": {
+      "timeoutMs": 10000,
+      "retry": { "maxAttempts": 3, "baseDelayMs": 500, "maxDelayMs": 8000 },
+      "rateLimit": { "requests": 2, "perMilliseconds": 1000 }
+    },
+    "series": {
+      "PET.RBRTE.D": {
+        "commodityId": "crude-oil-brent",
+        "symbol": "BRENT",
+        "name": "Brent crude oil spot price",
+        "currency": "USD",
+        "unit": "barrel",
+        "geography": "Global"
+      },
+      "PET.RWTC.D": {
+        "commodityId": "crude-oil-wti",
+        "symbol": "WTI",
+        "name": "WTI crude oil spot price",
+        "currency": "USD",
+        "unit": "barrel",
+        "geography": "United States"
+      },
+      "NG.RNGWHHD.D": {
+        "commodityId": "natural-gas-henry-hub",
+        "symbol": "NG",
+        "name": "Henry Hub natural gas spot price",
+        "currency": "USD",
+        "unit": "MMBtu",
+        "geography": "United States"
+      }
+    }
+  },
+  {
+    "id": "fred-macro",
+    "type": "fred",
+    "enabled": false,
+    "refreshMinutes": 360,
+    "baseUrl": "https://api.stlouisfed.org",
+    "authentication": {
+      "type": "apiKey",
+      "apiKeyEnv": "FRED_API_KEY"
+    },
+    "observationsPerSeries": 240,
+    "runtime": {
+      "timeoutMs": 10000,
+      "retry": { "maxAttempts": 3, "baseDelayMs": 500, "maxDelayMs": 8000 },
+      "rateLimit": { "requests": 2, "perMilliseconds": 1000 }
+    },
+    "series": {
+      "DTWEXBGS": {
+        "title": "Trade Weighted U.S. Dollar Index: Broad",
+        "unit": "index",
+        "commodityIds": []
+      },
+      "INDPRO": {
+        "title": "Industrial Production: Total Index",
+        "unit": "index",
+        "commodityIds": []
+      },
+      "PCU325325": {
+        "title": "Producer Price Index: Chemical Manufacturing",
+        "unit": "index",
+        "commodityIds": ["petrochemical-feedstocks"]
+      }
+    }
+  },
+  {
+    "id": "world-bank-pink-sheet",
+    "type": "world-bank-pink-sheet",
+    "enabled": true,
+    "refreshMinutes": 1440,
+    "downloadUrl": "https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx",
+    "sheetName": "Monthly Prices",
+    "maxMonths": 240,
+    "runtime": {
+      "timeoutMs": 30000,
+      "retry": { "maxAttempts": 3, "baseDelayMs": 1000, "maxDelayMs": 10000 },
+      "rateLimit": { "requests": 1, "perMilliseconds": 60000 }
+    },
+    "columns": {
+      "Crude oil, Brent": {
+        "commodityId": "crude-oil-brent",
+        "symbol": "BRENT",
+        "name": "Brent crude oil",
+        "currency": "USD",
+        "unit": "barrel",
+        "geography": "Global"
+      },
+      "Crude oil, WTI": {
+        "commodityId": "crude-oil-wti",
+        "symbol": "WTI",
+        "name": "WTI crude oil",
+        "currency": "USD",
+        "unit": "barrel",
+        "geography": "United States"
+      },
+      "Natural gas, US": {
+        "commodityId": "natural-gas-us",
+        "symbol": "NG",
+        "name": "U.S. natural gas",
+        "currency": "USD",
+        "unit": "MMBtu",
+        "geography": "United States"
+      },
+      "Liquefied natural gas, Japan": {
+        "commodityId": "lng-japan",
+        "symbol": "LNG-P",
+        "name": "Japan LNG proxy",
+        "currency": "USD",
+        "unit": "MMBtu",
+        "geography": "Japan"
+      },
+      "Palm oil": {
+        "commodityId": "palm-oil",
+        "symbol": "PALM",
+        "name": "Palm oil",
+        "currency": "USD",
+        "unit": "tonne",
+        "geography": "Global"
+      },
+      "Aluminum": {
+        "commodityId": "aluminium",
+        "symbol": "AL",
+        "name": "Aluminium",
+        "currency": "USD",
+        "unit": "tonne",
+        "geography": "Global"
+      },
+      "Copper": {
+        "commodityId": "copper",
+        "symbol": "CU",
+        "name": "Copper",
+        "currency": "USD",
+        "unit": "tonne",
+        "geography": "Global"
+      },
+      "Nickel": {
+        "commodityId": "nickel",
+        "symbol": "NI",
+        "name": "Nickel",
+        "currency": "USD",
+        "unit": "tonne",
+        "geography": "Global"
+      },
+      "Gold": {
+        "commodityId": "gold",
+        "symbol": "XAU",
+        "name": "Gold",
+        "currency": "USD",
+        "unit": "troy ounce",
+        "geography": "Global"
+      }
+    }
+  },
+  {
+    "id": "gdelt-global-news",
+    "type": "gdelt",
+    "enabled": true,
+    "refreshMinutes": 30,
+    "baseUrl": "https://api.gdeltproject.org",
+    "timespan": "24h",
+    "maxRecords": 50,
+    "runtime": {
+      "timeoutMs": 30000,
+      "retry": { "maxAttempts": 4, "baseDelayMs": 5000, "maxDelayMs": 30000 },
+      "rateLimit": { "requests": 1, "perMilliseconds": 10000 }
+    },
+    "queries": {
+      "commodity-markets": {
+        "query": "(\"crude oil\" OR \"natural gas\" OR LNG OR copper OR aluminum OR nickel OR gold OR \"palm oil\") (price OR supply OR demand OR shipping OR production)",
+        "commodityIds": [
+          "crude-oil-brent",
+          "crude-oil-wti",
+          "natural-gas-us",
+          "lng-japan",
+          "copper",
+          "aluminium",
+          "nickel",
+          "gold",
+          "palm-oil"
+        ]
+      }
+    }
+  }
+]

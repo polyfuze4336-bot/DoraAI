@@ -1,0 +1,49 @@
+{
+  "name": "dora",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@10.9.3",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "connectors",
+    "intelligence",
+    "forecasting",
+    "agents",
+    "normalization",
+    "shared"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace @dora/web",
+    "build": "npm run build --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "test:e2e:desktop": "playwright test --project=desktop-chromium",
+    "test:watch": "vitest",
+    "format:check": "prettier --check \"package.json\" \"tsconfig.base.json\" \"vitest.config.ts\" \"config/**/*.json\" \"apps/**/*.{ts,tsx,css,mjs,json}\" \"services/**/*.{ts,json}\" \"connectors/**/*.{ts,json}\" \"intelligence/**/*.{ts,json}\" \"forecasting/**/*.{ts,json}\" \"agents/**/*.{ts,json}\" \"normalization/**/*.{ts,json}\" \"shared/**/*.{ts,json}\" \"tests/**/*.ts\""
+  },
+  "overrides": {
+    "esbuild": "0.28.2",
+    "next@15.5.23": {
+      "postcss": "8.5.26",
+      "sharp": "0.35.3"
+    }
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "22.19.15",
+    "@vitest/coverage-v8": "4.1.10",
+    "next": "15.5.23",
+    "prettier": "3.9.6",
+    "tsup": "8.5.1",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3",
+    "vitest": "4.1.10"
+  }
+}

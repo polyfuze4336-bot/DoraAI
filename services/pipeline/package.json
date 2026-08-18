@@ -1,0 +1,36 @@
+{
+  "name": "@dora/pipeline",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/pipeline.ts",
+    "./config": "./src/config.ts",
+    "./ingestion-store": "./src/ingestion-store.ts",
+    "./schedules": "./src/schedules.ts",
+    "./scheduled-processing": "./src/scheduled-processing.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsup",
+    "start": "node dist/index.cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dora/connectors": "0.1.0",
+    "@dora/forecasting": "0.1.0",
+    "@dora/intelligence": "0.1.0",
+    "@dora/normalization": "0.1.0",
+    "@dora/observability": "0.1.0",
+    "@dora/reporting": "0.1.0",
+    "@dora/shared": "0.1.0",
+    "@dora/storage": "0.1.0",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.15",
+    "tsup": "8.5.1",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3"
+  }
+}

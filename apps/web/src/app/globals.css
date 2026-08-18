@@ -1,0 +1,217 @@
+@import "tailwindcss";
+
+:root {
+  --canvas: #f2f4f1;
+  --surface: #fcfdfa;
+  --surface-subtle: #edf1ee;
+  --ink: #17262e;
+  --ink-muted: #65727a;
+  --ink-faint: #929ca1;
+  --line: #dce2df;
+  --line-soft: #e9edeb;
+  --line-strong: #c8d0cc;
+  --navy: #0d2638;
+  --navy-soft: #173b53;
+  --teal: #0b756d;
+  --teal-soft: #dcece8;
+  --teal-line: #b9dcd3;
+  --cyan: #187f9f;
+  --cyan-soft: #deedf2;
+  --blue: #285f89;
+  --blue-soft: #e2ebf2;
+  --blue-line: #c4d7e5;
+  --amber: #9a5d17;
+  --amber-soft: #f7ead7;
+  --amber-line: #ebd0a9;
+  --danger: #9b3f43;
+  --danger-soft: #f5e1e1;
+  --danger-line: #e9bfc1;
+  --brand: var(--teal);
+  --brand-soft: var(--teal-soft);
+  --shadow-hairline: 0 1px 1px rgba(13, 38, 56, 0.035);
+  --shadow-control: 0 2px 8px rgba(13, 38, 56, 0.07);
+  --shadow-card:
+    0 1px 2px rgba(13, 38, 56, 0.035), 0 10px 28px rgba(13, 38, 56, 0.045);
+  --shadow-float: 0 18px 50px rgba(13, 38, 56, 0.16);
+  --shadow-drawer: -18px 0 60px rgba(13, 38, 56, 0.18);
+}
+
+@theme inline {
+  --color-background: var(--canvas);
+  --color-foreground: var(--ink);
+  --font-sans: "Manrope Variable", sans-serif;
+  --font-serif: "Newsreader Variable", serif;
+}
+
+* {
+  box-sizing: border-box;
+  letter-spacing: 0;
+}
+
+html {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background-color: var(--canvas);
+  background-image:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.72), transparent 42%),
+    linear-gradient(rgba(13, 38, 56, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(13, 38, 56, 0.018) 1px, transparent 1px);
+  background-size:
+    auto,
+    32px 32px,
+    32px 32px;
+  color: var(--ink);
+  font-family: "Manrope Variable", sans-serif;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(38, 103, 168, 0.35);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--brand-soft);
+  color: var(--ink);
+}
+
+.dora-card {
+  box-shadow: var(--shadow-card);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.dora-card-elevated {
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(252, 253, 250, 0.92);
+  box-shadow:
+    0 1px 2px rgba(13, 38, 56, 0.04),
+    0 20px 50px rgba(13, 38, 56, 0.075);
+  backdrop-filter: blur(16px);
+}
+
+.dora-floating-control {
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.64);
+  color: var(--ink-muted);
+  box-shadow: var(--shadow-control);
+  backdrop-filter: blur(14px);
+  transition:
+    color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+
+.dora-floating-control:hover {
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--ink);
+  transform: translateY(-1px);
+}
+
+.dora-skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-subtle);
+}
+
+.dora-skeleton::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.78),
+    transparent
+  );
+  animation: skeleton-shimmer 1.35s ease-in-out infinite;
+  transform: translateX(-100%);
+}
+
+@keyframes skeleton-shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes drawer-out {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  [data-print-hidden="true"] {
+    display: none !important;
+  }
+}
