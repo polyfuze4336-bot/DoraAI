@@ -46,15 +46,15 @@ export class DoraIntelligenceAgent {
       citations,
     };
     const content = this.synthesizer
-      ? await this.synthesizer.synthesize(query, evidence)
-      : deterministicSynthesis(query, evidence);
+      ? await this.synthesizeWithFallback(query, evidence)
+      : { content: deterministicSynthesis(query, evidence), mode: "deterministic" as const };
     const answer: DoraAgentAnswer = {
       answerId: crypto.randomUUID(),
       question: query.question,
       generatedAt: new Date().toISOString(),
-      mode: this.synthesizer ? "foundry" : "deterministic",
-      ...content,
-      citations: retainUsedCitations(content.citations, citations),
+      mode: content.mode,
+      ...content.content,
+      citations: retainUsedCitations(content.content.citations, citations),
     };
     logStructured({
       event: "analysis.generated",
@@ -69,6 +69,35 @@ export class DoraIntelligenceAgent {
       },
     });
     return answer;
+  }
+
+  private async synthesizeWithFallback(
+    query: DoraAgentQuery,
+    evidence: DoraAgentEvidence,
+  ): Promise<{
+    content: Omit<
+      DoraAgentAnswer,
+      "answerId" | "question" | "generatedAt" | "mode"
+    >;
+    mode: DoraAgentAnswer["mode"];
+  }> {
+    try {
+      return {
+        content: await this.synthesizer!.synthesize(query, evidence),
+        mode: "foundry",
+      };
+    } catch (error) {
+      logStructured({
+        event: "analysis.synthesis-fallback",
+        correlationId: query.correlationId ?? query.question,
+        timestamp: new Date().toISOString(),
+        success: false,
+        attributes: {
+          reason: error instanceof Error ? error.message : "unknown",
+        },
+      });
+      return { content: deterministicSynthesis(query, evidence), mode: "deterministic" };
+    }
   }
 
   async *stream(query: DoraAgentQuery): AsyncGenerator<DoraAgentStreamEvent> {

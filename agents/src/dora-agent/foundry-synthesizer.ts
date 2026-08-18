@@ -17,6 +17,7 @@ export class FoundryDoraAgentSynthesizer implements DoraAgentSynthesizer {
     Omit<DoraAgentAnswer, "answerId" | "question" | "generatedAt" | "mode">
   > {
     const tier = routeModelWorkload("agent-answer", query.question);
+    const allowedCitationIds = evidence.citations.map((item) => item.id);
     const result = await this.client.chat({
       correlationId: query.correlationId,
       tier: tier === "reasoning" ? "reasoning" : "fast",
@@ -28,9 +29,11 @@ export class FoundryDoraAgentSynthesizer implements DoraAgentSynthesizer {
           content: [
             "You are DORA, a commodity intelligence analyst.",
             "Use only supplied tool evidence; never answer from model memory when evidence exists.",
-            "Return concise JSON matching the supplied response schema.",
-            "Separate observedData, inference, forecast, and recommendation.",
-            "Cite significant conclusions using supplied citation IDs.",
+            "Return a single JSON object that exactly matches responseSchema in the user message.",
+            "Populate every field; use empty arrays when you have nothing to add.",
+            "Separate observedData, inference, forecast, and recommendation in sections.",
+            "Only use citation IDs listed in allowedCitationIds; if none are supplied, return an empty citations array.",
+            "confidence and reasoningSummary.confidence must be numbers between 0 and 1.",
             "Do not expose chain-of-thought. Provide only the structured reasoningSummary fields.",
             "Do not invent numerical risk scores or forecasts.",
           ].join(" "),
@@ -41,6 +44,8 @@ export class FoundryDoraAgentSynthesizer implements DoraAgentSynthesizer {
             question: query.question,
             query,
             evidence,
+            allowedCitationIds,
+            responseSchema: RESPONSE_SCHEMA,
           }),
         },
       ],
@@ -53,6 +58,34 @@ export class FoundryDoraAgentSynthesizer implements DoraAgentSynthesizer {
     return parsed;
   }
 }
+
+const RESPONSE_SCHEMA = {
+  summary: "string: one-paragraph executive answer",
+  sections: {
+    observedData: ["string"],
+    inference: ["string"],
+    forecast: ["string"],
+    recommendation: ["string"],
+  },
+  principalDrivers: ["string"],
+  riskFactors: ["string"],
+  invalidationConditions: ["string"],
+  reasoningSummary: {
+    observedEvidence: ["string"],
+    relevantDrivers: ["string"],
+    conflictingIndicators: ["string"],
+    conclusion: "string",
+    confidence: "number between 0 and 1",
+    uncertainties: ["string"],
+  },
+  citations: [
+    { id: "string from allowedCitationIds", label: "string", observedAt: "ISO-8601 string" },
+  ],
+  inlineChart: [{ label: "string", value: 0, lower: 0, upper: 0 }],
+  followUpQuestions: ["string"],
+  relatedAnalysis: ["string"],
+} as const;
+
 
 function validateSynthesis(
   value: Omit<
