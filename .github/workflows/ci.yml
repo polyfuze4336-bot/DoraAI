@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: github/codeql-action/init@v3
+      - uses: github/codeql-action/init@v4
         with:
           languages: javascript-typescript
       - uses: actions/setup-node@v4
@@ -47,7 +47,7 @@ jobs:
             az bicep build --file infra/main.bicep --outfile /tmp/dora-main.json
             az bicep build-params --file infra/environments/development.bicepparam --outfile /tmp/dora-dev.json
             az bicep build --file infrastructure/pipeline-jobs.bicep --outfile /tmp/dora-jobs.json
-      - uses: github/codeql-action/analyze@v3
+      - uses: github/codeql-action/analyze@v4
       - name: Package build outputs
         run: |
           tar -czf dora-web.tgz -C apps/web .next/standalone .next/static
