@@ -4,6 +4,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import * as Tooltip from "@radix-ui/react-tooltip";
 import type { IntelligenceDomain } from "@dora/shared";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   Activity,
   ArrowRight,
@@ -13,18 +14,17 @@ import {
   Factory,
   FileText,
   LayoutDashboard,
-  Library,
   Menu,
   Newspaper,
   RefreshCw,
   Search,
   ShieldAlert,
   Sparkles,
-  X,
 } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { startTransition, useDeferredValue, useEffect, useState } from "react";
 
+import { CommandSidebar } from "@/components/command-sidebar";
 import {
   AgentActivity,
   AnimatedNumber,
@@ -88,15 +88,14 @@ export function DoraExecutiveDashboard({
   const [searchQuery, setSearchQuery] = useState("");
   const deferredQuery = useDeferredValue(searchQuery.trim().toLowerCase());
   const [lastRefresh, setLastRefresh] = useState("08:42 UTC");
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    const requestedDomain = new URLSearchParams(window.location.search).get(
-      "domain",
-    );
+    const requestedDomain = searchParams.get("domain");
     if (domainNavigation.some((item) => item.id === requestedDomain)) {
       setActiveDomain(requestedDomain as IntelligenceDomain);
     }
-  }, []);
+  }, [searchParams]);
 
   function refresh() {
     startTransition(() => {
@@ -122,12 +121,11 @@ export function DoraExecutiveDashboard({
   return (
     <Tooltip.Provider delayDuration={220}>
       <div className="min-h-screen xl:grid xl:grid-cols-[256px_minmax(0,1fr)]">
-        <ExecutiveSidebar
+        <CommandSidebar
           activeDomain={activeDomain}
           appName={appName}
           demoMode={demoMode}
           onClose={() => setNavigationOpen(false)}
-          onSelect={setActiveDomain}
           open={navigationOpen}
         />
 
@@ -202,125 +200,6 @@ export function DoraExecutiveDashboard({
         />
       </div>
     </Tooltip.Provider>
-  );
-}
-
-function ExecutiveSidebar({
-  activeDomain,
-  appName,
-  demoMode,
-  onClose,
-  onSelect,
-  open,
-}: {
-  readonly activeDomain: IntelligenceDomain;
-  readonly appName: string;
-  readonly demoMode: boolean;
-  readonly onClose: () => void;
-  readonly onSelect: (domain: IntelligenceDomain) => void;
-  readonly open: boolean;
-}) {
-  return (
-    <>
-      {open ? (
-        <button
-          aria-label="Close navigation"
-          className="fixed inset-0 z-40 bg-[rgba(8,19,30,.28)] backdrop-blur-[2px] xl:hidden"
-          onClick={onClose}
-          type="button"
-        />
-      ) : null}
-      <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-64 flex-col overflow-hidden border-r border-white/10 bg-[var(--navy)] text-white transition-transform duration-200 xl:translate-x-0 ${open ? "translate-x-0" : "-translate-x-full"}`}
-        data-print-hidden="true"
-      >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(31,143,178,.16),transparent_38%)]" />
-        <div className="relative flex h-[76px] items-center justify-between border-b border-white/10 px-5">
-          <Brand appName={appName} inverse />
-          <button
-            aria-label="Close navigation"
-            className="grid h-9 w-9 place-items-center rounded-[8px] text-white/65 hover:bg-white/10 xl:hidden"
-            onClick={onClose}
-            type="button"
-          >
-            <X aria-hidden="true" size={17} />
-          </button>
-        </div>
-
-        <nav aria-label="Primary" className="relative flex-1 px-3 py-6">
-          <div className="px-3 pb-2 text-[10px] font-bold uppercase text-white/35">
-            Executive
-          </div>
-          <Link
-            className="flex h-11 items-center gap-3 rounded-[8px] px-3 text-sm font-semibold text-white/62 transition-colors hover:bg-white/10 hover:text-white"
-            href="/dashboard"
-            onClick={onClose}
-          >
-            <LayoutDashboard aria-hidden="true" size={17} strokeWidth={1.8} />
-            Command centre
-            <ArrowRight aria-hidden="true" className="ml-auto" size={13} />
-          </Link>
-          <Link
-            className="mb-5 flex h-11 items-center gap-3 rounded-[8px] px-3 text-sm font-semibold text-white/62 transition-colors hover:bg-white/10 hover:text-white"
-            href="/knowledge"
-            onClick={onClose}
-          >
-            <Library aria-hidden="true" size={17} strokeWidth={1.8} />
-            Knowledge
-            <ArrowRight aria-hidden="true" className="ml-auto" size={13} />
-          </Link>
-          <div className="px-3 pb-2 text-[10px] font-bold uppercase text-white/35">
-            Intelligence domains
-          </div>
-          <div className="space-y-1">
-            {domainNavigation.map((item) => {
-              const Icon = item.icon;
-              const active = item.id === activeDomain;
-              return (
-                <button
-                  aria-current={active ? "page" : undefined}
-                  className={`group flex h-11 w-full items-center gap-3 rounded-[8px] px-3 text-left text-sm font-semibold transition-colors ${active ? "bg-white text-[var(--navy)] shadow-sm" : "text-white/62 hover:bg-white/8 hover:text-white"}`}
-                  key={item.id}
-                  onClick={() => {
-                    onSelect(item.id);
-                    onClose();
-                  }}
-                  type="button"
-                >
-                  <Icon aria-hidden="true" size={17} strokeWidth={1.8} />
-                  {item.label}
-                  {active ? (
-                    <span className="ml-auto h-1.5 w-1.5 rounded-full bg-[var(--teal)]" />
-                  ) : null}
-                </button>
-              );
-            })}
-          </div>
-        </nav>
-
-        <div className="relative border-t border-white/10 p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <span className="text-[10px] font-semibold text-white/40">
-              Data environment
-            </span>
-            <span className="rounded-full border border-white/10 bg-white/8 px-2 py-1 text-[9px] font-bold text-white/70">
-              {demoMode ? "Prototype" : "Connected"}
-            </span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="grid h-9 w-9 place-items-center rounded-full bg-[var(--cyan-soft)] text-[10px] font-extrabold text-[var(--navy)]">
-              MK
-            </div>
-            <div>
-              <div className="text-xs font-bold">Maya Khan</div>
-              <div className="mt-0.5 text-[10px] text-white/40">
-                Strategic sourcing
-              </div>
-            </div>
-          </div>
-        </div>
-      </aside>
-    </>
   );
 }
 
