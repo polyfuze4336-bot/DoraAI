@@ -67,8 +67,8 @@
   },
   "aiModels": {
     "fastDeployment": "dora-fast",
-    "reasoningDeployment": "dora-reasoning",
-    "embeddingDeployment": "dora-embedding"
+    "reasoningDeployment": "gpt-4o",
+    "embeddingDeployment": "text-embedding-3-small"
   },
   "forecastHorizons": [1, 7, 30, 90],
   "riskThresholds": {
