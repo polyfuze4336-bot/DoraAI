@@ -52,7 +52,7 @@ jobs:
         run: |
           tar -czf dora-web.tgz -C apps/web .next/standalone .next/static
           tar -czf dora-pipeline.tgz -C services/pipeline dist
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: dora-packages-${{ github.sha }}
           path: |
